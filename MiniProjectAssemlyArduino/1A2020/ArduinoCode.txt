@@ -1,0 +1,73 @@
+#define red 13
+#define blue 12
+#define button 2
+int m=0;
+int lastState2 = 0; // previous button state
+int state2; // button state
+
+
+void setup()
+{
+  pinMode(red, OUTPUT);
+  pinMode(blue, OUTPUT);
+  pinMode(button, INPUT);
+  Serial.begin(9600);
+}
+void loop()
+{  
+  checkbutton2();
+  if (m==0){
+      modeA(); 
+  }checkbutton2();
+  if (m==1){
+      modeB(); 
+  }
+  checkbutton2();
+  if (m==2){
+    modeC();
+  } 
+}
+
+void checkbutton2(){
+  state2 = digitalRead(button); // get new state
+  if(state2 != lastState2){ // if there is state change
+  	if(state2 == 1){ // and the input is now HIGH
+  		m++;
+  	}
+   }
+	lastState2 = state2; // store new state as last state
+  if(m>=3){m=1;}
+}
+void modeA(){
+  checkbutton2();
+  Serial.print("mode0()    ");Serial.println(m);
+  //RED
+  digitalWrite(red, HIGH);  
+  delay(150);checkbutton2();
+  digitalWrite(red, LOW);
+  delay(150);checkbutton2();
+  //BLUE
+  digitalWrite(blue, HIGH);  
+  delay(150);checkbutton2();
+  digitalWrite(blue, LOW);  
+  delay(150);checkbutton2();
+}
+  
+void modeB (){
+  checkbutton2();
+  Serial.print("modeB()    ");Serial.println(m);
+  digitalWrite(blue, LOW);	
+  digitalWrite(red, HIGH);
+    delay(350);checkbutton2();
+    digitalWrite(red, LOW);
+    delay(350);checkbutton2();
+}
+void modeC(){  
+  checkbutton2();
+  Serial.print("modeC()    ");Serial.println(m);
+  digitalWrite(red, LOW);
+  digitalWrite(blue, HIGH);
+  delay(250);checkbutton2();
+  digitalWrite(blue, LOW);
+  delay(250);checkbutton2();  
+}

@@ -1,0 +1,6 @@
+Cpu RISC(arm) - CISC
+
+cisc: 
+motorola(apple)
+intel 
+amd 

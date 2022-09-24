@@ -1,0 +1,50 @@
+//Progios Nikos //175002
+#define leds 13
+#define button 2
+
+int lastState = 0; // previous button state
+int state; // button state
+bool flag;
+int m =-1; // poses fores patise to koumpi
+void setup()
+{
+  pinMode(leds, OUTPUT);
+  pinMode(button, INPUT);
+}
+
+void loop()
+{
+  checkButton();
+  
+  if (m==-1){
+    digitalWrite(leds, LOW);
+  }
+  
+  if(m==0){
+ 	 digitalWrite(leds,HIGH);
+    //modeA();
+  }
+  if (m==1){
+  	modeB();
+  }    
+             
+}
+
+void checkButton(){
+  state = digitalRead(button);
+  if (state!= lastState){
+    if (state==1){
+    m++;
+    }
+   }lastState=state;
+}
+
+void modeA(){
+  digitalWrite(leds,HIGH);
+  delay(300);
+  digitalWrite(leds,LOW);
+  delay(300); 
+}
+void modeB(){
+  digitalWrite(leds,LOW);
+}

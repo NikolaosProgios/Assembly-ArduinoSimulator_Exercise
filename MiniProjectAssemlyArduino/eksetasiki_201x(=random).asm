@@ -1,0 +1,164 @@
+; multi-segment executable file template.
+
+data segment
+    ; add your data here!
+    arxi db 10,13,"Eisagete arithmo: $"  
+    error db 10,13,"Lathos input!$"
+    first db 10,13,"O Mikroteros arithmos einai: $"
+    second db 10,13,"O Megaluteros arithmos einai: $"
+    x db 0
+    y db 0
+    
+ends
+
+stack segment
+    dw   128  dup(0)
+ends
+
+code segment
+start:
+; set segment registers:
+    mov ax, data
+    mov ds, ax
+    mov es, ax
+    
+    JMP v1
+    
+a1:
+    LEA DX,error      ; BAZOYME TH DIEYTHINSI MNIMIS TOY MES STON DX
+    MOV AH,9 	    ; METAFEROYME STON AH TO 9 GIA NA MPOROYME NA EMFANISOYME TO MES
+    INT 21H     
+    
+
+v1:
+    LEA DX,arxi      ; BAZOYME TH DIEYTHINSI MNIMIS TOY MES STON DX
+    MOV AH,9 	    ; METAFEROYME STON AH TO 9 GIA NA MPOROYME NA EMFANISOYME TO MES
+    INT 21H 
+
+
+
+    MOV AH,08h      ; EISAGOYME XARAKTHRA APO TO PLIKTROLOGIO XORIS PARALLHLH EMFANISH
+    INT 21h         ; H ASCII TIMH TOY XARAKTHRA APOTHIKEYETAI STON AL    
+    
+
+    CMP AL,'0'      ; SYGKRINOYME AYTO POY PLHKTROLOGITHIKE ME THN ASCII TIMH TOY 0
+    JB a1           ; AN EINAI MIKROTERH H ASCII TIMH TOY PHGAINE STO "V1" GIA TON EPOMENO XARAKTIRA
+        
+    CMP AL,'9'      ; SYGKRINOYME AYTO POY PLHKTROLOGITHIKE ME THN ASCII TIMH TOY 9
+    JA a1           ; AN EINAI MEGALITERH H ASCII TIMH TOY PHGAINE STO "v1" GIA TON EPOMENO XARAKTIRA
+    
+    MOV DL,AL	    ; METAFERO STO DL TO XARAKTIRA POY EXOYME EISAGEI
+    MOV AH,2	    ; METAFEROYME STON AH TO 2 GIA NA MPOROYME NA EMFANISOYME TO PERIEXOMENO TOY DL
+    INT 21H		    ; KALOYME TO LEITOYRGIKO SYSTIMA NA EMFANISEI STIN OTHONI TO PERIEXOMENO TOY DL
+    
+    MOV x,dl
+    
+    
+    JMP v2
+a2:
+    
+    LEA DX,error      ; BAZOYME TH DIEYTHINSI MNIMIS TOY MES STON DX
+    MOV AH,9 	    ; METAFEROYME STON AH TO 9 GIA NA MPOROYME NA EMFANISOYME TO MES
+    INT 21H
+    
+v2:
+    
+    LEA DX,arxi      ; BAZOYME TH DIEYTHINSI MNIMIS TOY MES STON DX
+    MOV AH,9 	    ; METAFEROYME STON AH TO 9 GIA NA MPOROYME NA EMFANISOYME TO MES
+    INT 21H 
+
+
+
+    MOV AH,08h      ; EISAGOYME XARAKTHRA APO TO PLIKTROLOGIO XORIS PARALLHLH EMFANISH
+    INT 21h         ; H ASCII TIMH TOY XARAKTHRA APOTHIKEYETAI STON AL    
+    
+
+    CMP AL,'0'      ; SYGKRINOYME AYTO POY PLHKTROLOGITHIKE ME THN ASCII TIMH TOY 0
+    JB a2           ; AN EINAI MIKROTERH H ASCII TIMH TOY PHGAINE STO "V1" GIA TON EPOMENO XARAKTIRA
+        
+    CMP AL,'9'      ; SYGKRINOYME AYTO POY PLHKTROLOGITHIKE ME THN ASCII TIMH TOY 9
+    JA a2           ; AN EINAI MEGALITERH H ASCII TIMH TOY PHGAINE STO "v1" GIA TON EPOMENO XARAKTIRA
+    
+    MOV DL,AL	    ; METAFERO STO DL TO XARAKTIRA POY EXOYME EISAGEI
+    MOV AH,2	    ; METAFEROYME STON AH TO 2 GIA NA MPOROYME NA EMFANISOYME TO PERIEXOMENO TOY DL
+    INT 21H		    ; KALOYME TO LEITOYRGIKO SYSTIMA NA EMFANISEI STIN OTHONI TO PERIEXOMENO TOY DL
+    
+    MOV y,dl  
+    
+    
+    MOV dl,x
+    MOV cl,y
+    
+    CMP dl,cl
+    JA prwtos
+    
+    JMP defteros
+    
+prwtos:
+    LEA DX,first      ; BAZOYME TH DIEYTHINSI MNIMIS TOY MES STON DX
+    MOV AH,9 	    ; METAFEROYME STON AH TO 9 GIA NA MPOROYME NA EMFANISOYME TO MES
+    INT 21H
+    
+    
+    MOV dl,y
+    MOV AH,2
+    INT 21h
+    
+    MOV dl,x
+    MOV AH,2
+    INT 21h 
+    
+    LEA DX,second      ; BAZOYME TH DIEYTHINSI MNIMIS TOY MES STON DX
+    MOV AH,9 	    ; METAFEROYME STON AH TO 9 GIA NA MPOROYME NA EMFANISOYME TO MES
+    INT 21H
+    
+    
+    MOV dl,x
+    MOV AH,2
+    INT 21h
+    
+    MOV dl,y
+    MOV AH,2
+    INT 21h 
+    
+    JMP END
+    
+defteros:  
+
+    LEA DX,first      ; BAZOYME TH DIEYTHINSI MNIMIS TOY MES STON DX
+    MOV AH,9 	    ; METAFEROYME STON AH TO 9 GIA NA MPOROYME NA EMFANISOYME TO MES
+    INT 21H
+    
+    
+    MOV dl,x
+    MOV AH,2
+    INT 21h
+    
+    MOV dl,y
+    MOV AH,2
+    INT 21h 
+    
+    LEA DX,second      ; BAZOYME TH DIEYTHINSI MNIMIS TOY MES STON DX
+    MOV AH,9 	    ; METAFEROYME STON AH TO 9 GIA NA MPOROYME NA EMFANISOYME TO MES
+    INT 21H
+    
+    
+    MOV dl,y
+    MOV AH,2
+    INT 21h
+    
+    MOV dl,x
+    MOV AH,2
+    INT 21h 
+    
+    JMP END
+
+END:
+    
+    MOV AH,4CH	; Eksodos sto leitoyrgiko systhma
+    INT 21H	    
+	            
+
+end start ; set entry point and stop the assembler.
+    
+    
